@@ -1,11 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand } from 'reactstrap';
 import Directory from './components/DirectoryComponent'
 import {CAMPSITES} from './shared/campsites'
 import './App.css';
+
 
 class App extends Component {
   constructor(props){

@@ -17,6 +17,12 @@ import {
   Label,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
+import { bounce } from "react-animations";
+import styled, { keyframes } from "styled-components";
+
+const Bounce = styled.div`
+  animation: 2s ${keyframes`${bounce}`} infinite;
+`;
 
 class Header extends Component {
   constructor(props) {
@@ -100,9 +106,15 @@ class Header extends Component {
                 </NavItem>
               </Nav>
               <span className="navbar-text ml-auto">
-                <Button outline onClick={this.toggleModal}>
-                  <i className="fa fa-sign-in fa-lg" /> Login
-                </Button>
+                <Bounce>
+                  <Button
+                    outline
+                    onClick={this.toggleModal}
+                    className="fa-lg text-white"
+                  >
+                    <i className="fa fa-sign-in" /> Login
+                  </Button>
+                </Bounce>
               </span>
             </Collapse>
           </div>

@@ -14,6 +14,8 @@ import {
   fetchCampsites,
   fetchComments,
   fetchPromotions,
+  fetchPartners,
+  postFeedback,
 } from "../redux/ActionCreators";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -21,9 +23,11 @@ const mapDispatchToProps = {
   postComment: (campsiteId, rating, author, text) =>
     postComment(campsiteId, rating, author, text),
   fetchCampsites: () => fetchCampsites(),
+  postFeedback: (feedback) => postFeedback(feedback),
   resetFeedbackForm: () => actions.reset("feedbackForm"),
   fetchComments: () => fetchComments(),
   fetchPromotions: () => fetchPromotions(),
+  fetchPartners: () => fetchPartners(),
 };
 const mapStateToProps = (state) => {
   return {
@@ -39,26 +43,33 @@ class Main extends Component {
     this.props.fetchCampsites();
     this.props.fetchComments();
     this.props.fetchPromotions();
+    this.props.fetchPartners();
   }
   render() {
     const HomePage = () => {
       return (
         <Home
+          campsitesLoading={this.props.campsites.isLoading}
+          campsitesErrMess={this.props.campsites.errMess}
           campsite={
             this.props.campsites.campsites.filter(
               (campsite) => campsite.featured
             )[0]
           }
-          campsitesLoading={this.props.campsites.isLoading}
-          campsitesErrMess={this.props.campsites.errMess}
+          promotionLoading={this.props.promotions.isLoading}
+          promotionErrMess={this.props.promotions.errMess}
           promotion={
             this.props.promotions.promotions.filter(
               (promotion) => promotion.featured
             )[0]
           }
-          promotionLoading={this.props.promotions.isLoading}
-          promotionErrMess={this.props.promotions.errMess}
-          partner={this.props.partners.filter((partner) => partner.featured)[0]}
+          partnersLoading={this.props.partners.isLoading}
+          partnersErrMess={this.props.partners.errMess}
+          partner={
+            this.props.partners.partners.filter(
+              (partner) => partner.featured
+            )[0]
+          }
         />
       );
     };
@@ -103,7 +114,10 @@ class Main extends Component {
                 exact
                 path="/contactus"
                 render={() => (
-                  <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+                  <Contact
+                    postFeedback={this.props.postFeedback}
+                    resetFeedbackForm={this.props.resetFeedbackForm}
+                  />
                 )}
               />
               <Route
